@@ -43,7 +43,6 @@ public class MarfeelService {
 			return new Site(site.getUrl(), HTMLParser.evaluate(keys, site.getUrl()));
 		}).collect(Collectors.toList());
 
-//		logger.info(entities.stream().filter(Site::getMarfeelizable).collect(Collectors.toList()).size());
 		this.repository.saveAll(entities);
 	}
 }
