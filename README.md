@@ -1,13 +1,13 @@
 # Test Java Backend - Marfeel
 
-Spring MVC para la API REST.
-Spring Data para la capa de persistencia(MySQL).
-Java SDK 8.
-jSoup biblioteca de Java para analizar HTML.
-Maven para construir la estructura de la aplicación.
-JUnit, Spring Test, PowerMockito y / o Hamcrest para pruebas.
+- Spring MVC para la API REST.
+- Spring Data para la capa de persistencia(MySQL).
+- Java SDK 8.
+- jSoup biblioteca de Java para analizar HTML.
+- Maven para construir la estructura de la aplicación.
+- JUnit, Spring Test, PowerMockito y Hamcrest para pruebas.
 
-#REQUISITOS
+# REQUISITOS
 - Crear una aplicación web con una interfaz REST, capaz de recibir un JSON
 Documento con una lista de URL (ver ejemplo al final).
 - Debería paralelizar su lógica de negocios, creando una aplicación multiproceso (es decir:
