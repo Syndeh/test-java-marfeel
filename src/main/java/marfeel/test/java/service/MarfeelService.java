@@ -18,43 +18,32 @@ import marfeel.test.java.utils.HTMLParser;
 @Service
 public class MarfeelService {
 
+	private static final String NOTICIAS = "noticias";
+
+	private static final String NEWS = "news";
+
+	private static final String PROCESSING = "Processing";
+
 	private static final Log logger = LogFactory.getLog(MarfeelService.class);
 
-	private final String[] keys = { "news","noticias","servicios"};
+	private final String[] keys = { NEWS,NOTICIAS};
 
 	@Autowired
 	private SiteRepository repository;
 
-	public SiteResponse analyze(List<SiteRequest> siteResourceList) {
-		this.evalueateContent(siteResourceList);
-		return new SiteResponse("Processing", siteResourceList.size());
+	public SiteResponse analyze(List<SiteRequest> siteRequests) {
+		this.evalueateContent(siteRequests);
+		return new SiteResponse(PROCESSING, siteRequests.size());
 	}
 
 	@Async
-	public void evalueateContent(List<SiteRequest> siteResourceList) {
-		logger.info("Analizando");
-		List<Site> entities = siteResourceList.parallelStream().map(site -> {
+	private void evalueateContent(List<SiteRequest> siteRequests) {
+		logger.info("Analyzing ...");
+		List<Site> entities = siteRequests.parallelStream().map(site -> {
 			return new Site(site.getUrl(), HTMLParser.evaluate(keys, site.getUrl()));
 		}).collect(Collectors.toList());
 
-		logger.info(entities.stream().filter(Site::getMarfeelizable).collect(Collectors.toList()).size());
+//		logger.info(entities.stream().filter(Site::getMarfeelizable).collect(Collectors.toList()).size());
 		this.repository.saveAll(entities);
 	}
-
-	public SiteResponse analyze2(List<SiteRequest> siteResourceList) {
-		siteResourceList.parallelStream().forEach(site -> {
-			this.evalueateContent2(site);
-		});
-		return new SiteResponse("Processing", siteResourceList.size());
-	}
-
-	@Async
-	public void evalueateContent2(SiteRequest site) {
-		logger.info("Analizando");
-		Site site2Save = new Site(site.getUrl(), HTMLParser.evaluate(keys, site.getUrl()));
-
-		logger.info(String.format("Saving url checked: %s", site.getUrl()));
-		this.repository.save(site2Save);
-	}
-
 }
